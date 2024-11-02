@@ -7,6 +7,7 @@ RSpec.describe SocialMiner::Instagram::ProfilePosts do
       "data" => {
         "user" => {
           "edge_owner_to_timeline_media" => {
+            "count" => 1,
             "page_info" => {
               "end_cursor" => "next_page_token"
             },
@@ -42,6 +43,7 @@ RSpec.describe SocialMiner::Instagram::ProfilePosts do
     end
 
     it "fetches and maps posts correctly" do
+      expect(profile_posts[:count]).to eq 1
       expect(profile_posts[:cursor]).to eq("next_page_token")
       expect(profile_posts[:records]).to contain_exactly(
         include(

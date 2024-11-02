@@ -30,13 +30,15 @@ module SocialMiner
                                 .then { |data| data.fetch("server_cursor") }
 
           records = edge_media.fetch("edges").map { |edge| edge.fetch("node") }
+          count   = edge_media.fetch("count")
 
           if block_given?
-            yield(records, cursor)
+            yield(records, cursor, count)
           else
             {
               records: records.map { |record| SocialMiner.mapper_for_klass(self.class).map(record) },
-              cursor: cursor
+              cursor: cursor,
+              count: count
             }
           end
         else

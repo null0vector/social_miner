@@ -29,13 +29,15 @@ module SocialMiner
 
           cursor  = Helpers::Hash.fetch_nested(timeline_media, "page_info", "end_cursor")
           records = timeline_media.fetch("edges").map { |attrs| attrs.fetch("node") }
+          count   = timeline_media.fetch("count")
 
           if block_given?
-            yield(records, cursor)
+            yield(records, cursor, count)
           else
             {
               records: records.map { |record| SocialMiner.mapper_for_klass(self.class).map(record) },
-              cursor: cursor
+              cursor: cursor,
+              count: count
             }
           end
         else
